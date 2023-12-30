@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  
+  db:
+    image: postgres
+    restart: always
+    container_name: db
+    environment:
+      POSTGRES_DB: "ratsdb"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "adminadmin"
+    # ports:
+    #   - "5432:5432"
+      
+  web:
+    build: ./RATS
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
