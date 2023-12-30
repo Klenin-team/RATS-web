@@ -1,16 +1,16 @@
 [tool.poetry]
-name = "rats-backend"
-version = "0.0.0"
-description = "A backend part of RATS: reborned cats"
-authors = ["Your Name <you@example.com>"]
+name = "rats"
+version = "0.1.0"
+description = ""
+authors = ["Beaver <beavernotacat@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-Django = "^5.0"
-psycopg = "^3.1.16"
-psycopg-binary = "^3.1.16"
+django = "^5.0"
 django-environ = "^0.11.2"
+psycopg-binary = "^3.1.16"
+psycopg = "^3.1.16"
 
 
 [build-system]

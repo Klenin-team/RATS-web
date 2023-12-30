@@ -9,12 +9,13 @@ services:
       POSTGRES_DB: "ratsdb"
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "adminadmin"
-    # ports:
-    #   - "5432:5432"
-      
+    ports:
+       - "5432:5432"
+
   web:
     build: ./RATS
     restart: always
+    command: poetry run python manage.py runserver 0.0.0.0:8000
     env_file:
       - .env
     depends_on:

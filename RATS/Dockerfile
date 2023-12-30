@@ -4,5 +4,3 @@ WORKDIR /code
 RUN python -m pip install poetry
 COPY . .
 RUN poetry install
-RUN poetry run python manage.py migrate
-CMD poetry run python manage.py runserver
