@@ -1,7 +1,8 @@
 DJANGO_DEBUG=true
 DJANGO_SECRET_KEY="django-insecure-u2p%18gymxyob5ttzb^6qt81op80ej8&&b1@*s&9lt^yyx2^=t"
 
-POSTGRES_HOST="0.0.0.0"
+POSTGRES_HOST="db"
 POSTGRES_PORT="5432"
+POSTGRES_DB="ratsdb"
 POSTGRES_USER="admin"
 POSTGRES_PASSWORD="adminadmin"
