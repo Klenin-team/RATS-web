@@ -11,4 +11,4 @@ RATS - Reborned CATS web part
 7. `poetry run python manage.py runserver`
 ### Docker compose
 1. Create `.env` file and fill it with variables from `.devenv`
-2. docker-compose up
+2. `docker-compose up`
