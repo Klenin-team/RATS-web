@@ -1,3 +1,4 @@
+import uuid 
 from django.db import models
 
 from RATS.settings import SUPPORTED_LANGUAGES
@@ -5,6 +6,8 @@ from profiles.models import Users
 
 
 class Problems(models.Model):
+    id = models.UUIDField(primary_key = True, 
+         default = uuid.uuid4, editable = False) 
     title = models.CharField(max_length=300)
     memory_limitation = models.IntegerField() #Bytes
     time_limitation = models.IntegerField() #Miliseconds
@@ -14,6 +17,8 @@ class Problems(models.Model):
 
 
 class Tests(models.Model):
+    id = models.UUIDField(primary_key = True, 
+         default = uuid.uuid4, editable = False) 
     problem = models.ForeignKey(Problems, on_delete=models.CASCADE)
     input = models.TextField()
     output = models.TextField()
@@ -32,6 +37,8 @@ class TestVerdicts(models.Model):
         SE = 6, ('Server error')
         NT = 7, ('Not tested')
     
+    id = models.UUIDField(primary_key = True, 
+         default = uuid.uuid4, editable = False) 
     test = models.ForeignKey(Tests, on_delete=models.CASCADE)
     verdict = models.IntegerField(choices=Verdicts)
     compilation_output = models.TextField()
@@ -42,6 +49,8 @@ class TestVerdicts(models.Model):
 
 
 class Solves(models.Model):
+    id = models.UUIDField(primary_key = True, 
+         default = uuid.uuid4, editable = False) 
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     problem = models.ForeignKey(Problems, on_delete=models.CASCADE)
     language = models.CharField(max_length=30, choices=SUPPORTED_LANGUAGES)
