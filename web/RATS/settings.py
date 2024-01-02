@@ -60,7 +60,7 @@ TEMPLATES = [
 ]
 
 
-#Web server
+# Web server
 WSGI_APPLICATION = "RATS.wsgi.application"
 
 
@@ -75,6 +75,10 @@ DATABASES = {
         "PORT": env("POSTGRES_PORT"),
     }
 }
+
+
+# Queue
+QUEUE_HOST = env('QUEUE_HOST')
 
 
 # Autentification

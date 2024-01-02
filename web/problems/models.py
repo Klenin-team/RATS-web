@@ -45,10 +45,10 @@ class TestVerdicts(models.Model):
     runtime_outputput = models.TextField()
     used_ram = models.IntegerField() #Bytes
     used_time = models.IntegerField() # Miliseconds
-    solve = models.ForeignKey('Solves', on_delete=models.CASCADE)
+    solve = models.ForeignKey('Solutions', on_delete=models.CASCADE)
 
 
-class Solves(models.Model):
+class Solutions(models.Model):
     id = models.UUIDField(primary_key = True, 
          default = uuid.uuid4, editable = False) 
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
