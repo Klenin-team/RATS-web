@@ -86,8 +86,8 @@ class Solution(Base):
     __tablename__ = 'solution'
     id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True)
     code: Mapped[str] = mapped_column(TEXT, nullable=False)
-    problem: Mapped[UUIDType] = mapped_column(ForeignKey('Problem.id'))
-    user: Mapped[UUIDType] = mapped_column(ForeignKey('User.id'))
+    problem: Mapped[UUIDType] = mapped_column(ForeignKey('problem.id'))
+    user: Mapped[UUIDType] = mapped_column(ForeignKey('user.id'))
     verdicts: Mapped[List['TestVerdict']] = relationship(
         back_populates="test_verdicts"
     )
@@ -96,7 +96,7 @@ class Solution(Base):
 class Test(Base):
     __tablename__ = 'test'
     id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True)
-    problem: Mapped[UUIDType] = mapped_column(ForeignKey('Problem.id'))
+    problem: Mapped[UUIDType] = mapped_column(ForeignKey('problem.id'))
     input: Mapped[str] = mapped_column(TEXT, nullable=False)
     output: Mapped[str] = mapped_column(TEXT, nullable=False)
 
@@ -109,5 +109,5 @@ class TestVerdict(Base):
     runtime_output: Mapped[str] = mapped_column(TEXT, nullable = False)
     used_ram: Mapped[int] = mapped_column(INT, nullable=False)    # Bytes
     used_time: Mapped[int] = mapped_column(INT, nullable=False)   # Miliseconds
-    test = mapped_column(ForeignKey('Test.id'))
-    solution = mapped_column(ForeignKey('Solution.id'))
+    test = mapped_column(ForeignKey('test.id'))
+    solution = mapped_column(ForeignKey('solution.id'))

@@ -1,10 +1,10 @@
+import asyncio
 from functools import lru_cache
 
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from .models import Base
 from app.settings import get_settings
-
 
 
 engine = create_async_engine(get_settings().get_postgres_url())
@@ -21,3 +21,8 @@ async def init_models():
 async def get_async_session():
     async with async_session_maker() as session:
         yield session
+
+
+if __name__ == '__main__':
+    asyncio.run(init_models())
+

@@ -1,12 +1,7 @@
-import asyncio
-
 from fastapi import FastAPI
 
-from database.session import init_models
-from settings import get_settings
+from app.settings import get_settings
+from app.database.session import init_models
 
-
-get_settings()
-asyncio.run(init_models())
 
 app = FastAPI()
