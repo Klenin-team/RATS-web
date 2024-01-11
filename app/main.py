@@ -1,12 +1,12 @@
-from functools import lru_cache
+import asyncio
 
 from fastapi import FastAPI
 
-from .settings import Settings
+from database.session import init_models
+from settings import get_settings
 
 
-@lru_cache
-def get_settings():
-    return Settings()
+get_settings()
+asyncio.run(init_models())
 
 app = FastAPI()
