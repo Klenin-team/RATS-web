@@ -1,0 +1,9 @@
+python
+SQLAlchemy
+alembic
+psycopg-binary
+asyncpg
+fastapi
+pydantic-settings
+uvicorn
+httpx
