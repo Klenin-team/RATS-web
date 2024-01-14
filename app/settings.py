@@ -16,7 +16,10 @@ class Settings(BaseSettings):
         env_file=".env",
         extra="ignore",
     )
-
+    WEB_SECRET_KEY:str
+    JWT_ALGORYTHM: str
+    JWT_EXPIRES_MINUTES: int
+    
     POSTGRES_HOST: str
     POSTGRES_DB: str
     POSTGRES_USER: str

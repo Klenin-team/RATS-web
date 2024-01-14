@@ -7,3 +7,5 @@ fastapi
 pydantic-settings
 uvicorn
 httpx
+python-jose
+passlib
