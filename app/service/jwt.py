@@ -5,11 +5,10 @@ from fastapi import status, HTTPException
 from jose import jwt
 from passlib.context import CryptContext
 from sqlalchemy import select, insert
-from sqlalchemy.ext.asyncio import session
 
 from app.settings import get_settings
 from app.database.models import User
-from app.database.session import data
+from app.database.session import async_session_maker
 
 class JwtAuthentication:
     def __init__(self):
