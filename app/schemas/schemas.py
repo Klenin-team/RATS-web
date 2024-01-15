@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import BaseModel
 from typing import List
 
@@ -40,9 +42,9 @@ class Problems(BaseModel):
     output_file: str
 
 
-class Users(BaseModel):
-    id: str | None = None
-    username: str
+class User(BaseModel):
+    id: UUID | None = None
+    login: str
     password: str
     real_name: str | None = None
 
@@ -51,7 +53,7 @@ class ContestSchema(BaseModel):
     id: str
     title: str
     problems: List[Problems]
-    participants: List[Users]
+    participants: List[User]
 
 
 class Solution(BaseModel):

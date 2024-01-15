@@ -55,10 +55,13 @@ contest_participant_table = Table(
 class User(Base):
     __tablename__ = 'user'
     id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
-    login: Mapped[str] = mapped_column(String(124), nullable=False)
+    login: Mapped[str] = mapped_column(String(124), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(String(124), nullable=False)
-    full_name: Mapped[TEXT] = mapped_column(TEXT, nullable=False)
-
+    full_name: Mapped[TEXT] = mapped_column(TEXT, nullable=True)
+    contests: Mapped[List['Contest']] = relationship(
+        secondary=contest_participant_table,
+        back_populates='participants'
+    )
 
 class Problem(Base):
     __tablename__ = 'problem'
@@ -69,7 +72,7 @@ class Problem(Base):
     text: Mapped[str] = mapped_column(TEXT, nullable=False)
     input_file: Mapped[str] = mapped_column(String(124), nullable=False)
     output_file: Mapped[str] = mapped_column(String(124), nullable=False)
-
+ 
 
 class Contest(Base):
     __tablename__ = 'contest'
@@ -78,8 +81,9 @@ class Contest(Base):
     problems: Mapped[List[Problem]] = relationship(
         secondary=contest_problem_table
     )
-    participants: Mapped[List[Problem]] = relationship(
-        secondary=contest_participant_table
+    participants: Mapped[List[User]] = relationship(
+        secondary=contest_participant_table,
+        back_populates='contests'
     )
 
 
@@ -89,9 +93,7 @@ class Solution(Base):
     code: Mapped[str] = mapped_column(TEXT, nullable=False)
     problem: Mapped[UUIDType] = mapped_column(ForeignKey('problem.id'))
     user: Mapped[UUIDType] = mapped_column(ForeignKey('user.id'))
-    verdicts: Mapped[List['TestVerdict']] = relationship(
-        back_populates="test_verdicts"
-    )
+    verdicts: Mapped[List['TestVerdict']] = relationship(back_populates='solution')
 
 
 class Test(Base):
@@ -110,5 +112,6 @@ class TestVerdict(Base):
     runtime_output: Mapped[str] = mapped_column(TEXT, nullable = False)
     used_ram: Mapped[int] = mapped_column(INT, nullable=False)    # Bytes
     used_time: Mapped[int] = mapped_column(INT, nullable=False)   # Miliseconds
-    test = mapped_column(ForeignKey('test.id'))
-    solution = mapped_column(ForeignKey('solution.id'))
+    test: Mapped[Test] = mapped_column(ForeignKey('test.id'))
+    solution_id: Mapped[UUIDType] = mapped_column(ForeignKey("solution.id"))
+    solution: Mapped[Solution] = relationship(back_populates='verdicts')
