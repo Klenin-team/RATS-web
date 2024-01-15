@@ -51,7 +51,7 @@ class Users(BaseModel):
     id: str
     username: str
     password: str
-    real_name: str
+    real_name: str | None = None
 
 
 class Contest(BaseModel):

@@ -1,3 +1,4 @@
+import uuid
 from uuid import UUID as UUIDType
 from typing import Any, List
 
@@ -53,7 +54,7 @@ contest_participant_table = Table(
 
 class User(Base):
     __tablename__ = 'user'
-    id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True)
+    id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
     login: Mapped[str] = mapped_column(String(124), nullable=False)
     password: Mapped[str] = mapped_column(String(124), nullable=False)
     full_name: Mapped[TEXT] = mapped_column(TEXT, nullable=False)
@@ -61,7 +62,7 @@ class User(Base):
 
 class Problem(Base):
     __tablename__ = 'problem'
-    id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True)
+    id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
     title: Mapped[str] = mapped_column(String(124), nullable=False)
     memory_limitation: Mapped[int] = mapped_column(INT, nullable=False)
     time_limitation: Mapped[int] = mapped_column(INT, nullable=False)
@@ -72,7 +73,7 @@ class Problem(Base):
 
 class Contest(Base):
     __tablename__ = 'contest'
-    id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True)
+    id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     problems: Mapped[List[Problem]] = relationship(
         secondary=contest_problem_table
@@ -84,7 +85,7 @@ class Contest(Base):
 
 class Solution(Base):
     __tablename__ = 'solution'
-    id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True)
+    id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
     code: Mapped[str] = mapped_column(TEXT, nullable=False)
     problem: Mapped[UUIDType] = mapped_column(ForeignKey('problem.id'))
     user: Mapped[UUIDType] = mapped_column(ForeignKey('user.id'))
@@ -95,7 +96,7 @@ class Solution(Base):
 
 class Test(Base):
     __tablename__ = 'test'
-    id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True)
+    id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
     problem: Mapped[UUIDType] = mapped_column(ForeignKey('problem.id'))
     input: Mapped[str] = mapped_column(TEXT, nullable=False)
     output: Mapped[str] = mapped_column(TEXT, nullable=False)
@@ -103,7 +104,7 @@ class Test(Base):
 
 class TestVerdict(Base):
     __tablename__ = 'test_verdict'
-    id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True)
+    id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
     verdict: Mapped[str] = mapped_column(String(2), nullable = False)
     compilation_output: Mapped[str] = mapped_column(TEXT, nullable = False)
     runtime_output: Mapped[str] = mapped_column(TEXT, nullable = False)

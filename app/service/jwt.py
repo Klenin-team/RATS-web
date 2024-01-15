@@ -1,16 +1,15 @@
 from datetime import datetime, timezone, timedelta
-from typing import Dict, Annotated
+from typing import Dict
 
 from fastapi import status, HTTPException
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from jose import JWTError, jwt
+from jose import jwt
 from passlib.context import CryptContext
-from sqlalchemy import select, nulls_first
+from sqlalchemy import select, insert
+from sqlalchemy.ext.asyncio import session
 
 from app.settings import get_settings
 from app.database.session import async_session_maker
 from app.database.models import User
-from app.schemas.jwt import TokenData
 
 
 class JwtAuthentication:
@@ -25,7 +24,7 @@ class JwtAuthentication:
 
     async def _get_user(self, login:str):
         async with async_session_maker() as session:
-            query = (select(User).where(User.login==login))
+            query = select(User).where(User.login==login)
             row = await session.execute(query)
             return row.first()
     
@@ -43,10 +42,18 @@ class JwtAuthentication:
         return user
 
 
-    def create_access_token(self, data: Dict, expires_delta: timedelta | None = None):
+    async def create_user(self, login, password):
+        async with async_session_maker() as session:
+            query = insert(User).values(
+                    name=login, 
+                    password=self.pwd_context.hash(password)
+                    )
+            return await session.execute(query)
+
+    async def create_access_token(self, data: Dict, expires_delta: timedelta | None = None):
         to_encode = data.copy()
         if expires_delta:
-            expire = datetime.now(timezone.utc) + expires_delta
+            expire = datetime.now(timezone.utc) + timedelta()
         else:
             expire = datetime.now(timezone.utc) + timedelta(minutes=15)
         to_encode.update({"exp": expire})
@@ -57,27 +64,3 @@ class JwtAuthentication:
         )
         return encoded_jwt
 
-    # async def get_current_user(self, token: Annotated[str, Depends(oauth2_scheme)]):
-    #     credentials_exception = HTTPException(
-    #         status_code=status.HTTP_401_UNAUTHORIZED,
-    #         detail="Could not validate credentials",
-    #         headers={"WWW-Authenticate": "Bearer"},
-    #     )
-
-    #     try:
-    #         payload = jwt.decode(
-    #             token,
-    #             get_settings().WEB_SECRET_KEY,
-    #             algorithms=[get_settings().JWT_ALGORYTHM]
-    #             )
-    #         username: str = payload.get("sub")
-    #         if username is None:
-    #             raise credentials_exception
-    #         token_data = TokenData(username=username)
-    #     except JWTError:
-    #         raise credentials_exception
-        
-    #     user = get_user(username=token_data.username)
-    #     if user is None:
-    #         raise credentials_exception
-    #     return user
