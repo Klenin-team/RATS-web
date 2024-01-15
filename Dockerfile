@@ -5,4 +5,5 @@ WORKDIR /code
 RUN python -m pip install poetry
 COPY . .
 RUN poetry install
-CMD poetry run python -m app.utils.create_database
+RUN poetry run python -m app.database.models
+CMD poetry run uvicorn app.main:app
