@@ -4,13 +4,6 @@ from typing import List
 
 # !!!!OTHERS!!!!
 
-class TournamentEntity(BaseModel):
-    id: str
-    title: str
-    start: str
-    end: str
-    official: bool
-
 
 class Tasks(BaseModel):
     id: str
@@ -38,7 +31,7 @@ class Tests(BaseModel):
     output: str
 
 
-class Problem(BaseModel):
+class Problems(BaseModel):
     id: str
     title: str
     memory_limitation: int
@@ -55,17 +48,16 @@ class Users(BaseModel):
     real_name: str
 
 
-class Contest(BaseModel):
+class ContestSchema(BaseModel):
     id: str
     title: str
-    description: str
-    problems: List[Problem]
+    problems: List[Problems]
     participants: List[Users]
 
 
 class Solution(BaseModel):
     id: str
-    problem: Problem
+    problem: Problems
     user: str
     code: str
     language: str
@@ -95,30 +87,26 @@ class PostLoginRequest(BaseModel):
     password: str
 
 
-class PostLoginRegisterRequest(BaseModel):
+class PostRegisterRequest(BaseModel):
     login: str
     password: str
-    real_name: str
+    real_name: str | None = None
 
 
-class GetTournamentsRequest(BaseModel):
-    my: bool
+class GetContestsResponse(BaseModel):
+    contests: List[ContestSchema]
 
 
-class GetTournamentsResponse(BaseModel):
-    tournaments: List[TournamentEntity]
+class PostContestRegisterRequest(BaseModel):
+    contest_id: str
 
 
-class GetTournamentRequest(BaseModel):
-    tournament_id: str
+class GetContestProblemsRequest(BaseModel):
+    contest_id: str
 
 
-class GetTournamentResponse(BaseModel):
-    tasks: List[Tasks]
-
-
-class PostTournamentRegisterRequest(BaseModel):
-    tournament_id: str
+class GetContestProblemsResponse(BaseModel):
+    problems: List[Problems]
 
 
 class GetTaskRequest(BaseModel):
