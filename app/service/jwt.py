@@ -8,9 +8,8 @@ from sqlalchemy import select, insert
 from sqlalchemy.ext.asyncio import session
 
 from app.settings import get_settings
-from app.database.session import async_session_maker
 from app.database.models import User
-
+from app.database.session import data
 
 class JwtAuthentication:
     def __init__(self):
@@ -41,7 +40,6 @@ class JwtAuthentication:
             raise wrong_credentials
         return user
 
-
     async def create_user(self, login, password):
         async with async_session_maker() as session:
             query = insert(User).values(
@@ -63,4 +61,3 @@ class JwtAuthentication:
             algorithm=get_settings().JWT_ALGORYTHM,
         )
         return encoded_jwt
-
