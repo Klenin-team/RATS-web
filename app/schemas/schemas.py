@@ -41,7 +41,7 @@ class Problems(BaseModel):
 
 
 class Users(BaseModel):
-    id: str
+    id: str | None
     username: str
     password: str
     real_name: str
