@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     JWT_ALGORYTHM: str
     JWT_EXPIRES_MINUTES: int
 
-    QUEUE_HOST:str    
+    QUEUE_HOST:str
 
     POSTGRES_HOST: str
     POSTGRES_DB: str

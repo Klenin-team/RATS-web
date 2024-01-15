@@ -6,7 +6,7 @@ services:
     restart: always
     container_name: db
     env_file:
-      - .env
+      - .envdev
     ports:
        - "5432:5432"
 
@@ -15,7 +15,7 @@ services:
     restart: always
     container_name: web
     env_file:
-      - .env
+      - .envdev
     depends_on:
       - db
     ports:
