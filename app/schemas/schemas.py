@@ -120,3 +120,21 @@ class GetTaskResponse(BaseModel):
     time_limitation: int
     input_file: str
     output_file: str
+
+
+class GetProblemRequest(BaseModel):
+    problem_id: str
+
+
+class GetProblemResponse(BaseModel):
+    id: str
+    title: str
+    memory_limitation: int
+    time_limitation: int
+    text: str
+    input_file: str
+    output_file: str
+
+
+class GetProblemsResponse(BaseModel):
+    problems: List[Problems]
