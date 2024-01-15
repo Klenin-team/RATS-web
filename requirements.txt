@@ -1,4 +1,3 @@
-python
 SQLAlchemy
 alembic
 psycopg-binary
@@ -9,3 +8,4 @@ uvicorn
 httpx
 python-jose
 passlib
+pydantic~=2.5.3
