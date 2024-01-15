@@ -1,8 +1,10 @@
-SQLAlchemy
+SQLAlchemy~=2.0.25
 alembic
 psycopg-binary
 asyncpg
-fastapi
+fastapi~=0.109.0
 pydantic-settings
 uvicorn
 httpx
+
+pydantic~=2.5.3
