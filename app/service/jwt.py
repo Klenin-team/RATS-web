@@ -42,7 +42,7 @@ class JwtAuthentication:
     async def create_user(self, login, password):
         async with async_session_maker() as session:
             query = insert(User).values(
-                    name=login, 
+                    login=login,
                     password=self.pwd_context.hash(password)
                     )
             return await session.execute(query)
