@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from app.settings import get_settings
-from app.database.session import init_models
-
+from app.api.auth import auth_router
 
 app = FastAPI()
+
+app.include_router(auth_router)
