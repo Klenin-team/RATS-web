@@ -1,6 +1,6 @@
 # RATS-web
 RATS - Reborned CATS web part
-## Deployment !!!OUTDATED!!!
+## Deployment
 ### Manual with poetry
 1. Set up and run postgresql
 2. Switch to the `web`
@@ -10,8 +10,7 @@ RATS - Reborned CATS web part
 6. `poetry run python -m app.database.session`
 7. `poetry run uvicorn app.main:app --reload`
 ### Docker compose
-1. Create `.env` file and fill it with variables from `.devenv`
-2. `docker-compose up`
+1. `docker-compose up`
 ## Project structure
 ```
 app/
