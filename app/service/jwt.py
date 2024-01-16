@@ -10,6 +10,7 @@ from app.settings import get_settings
 from app.database.models import User
 from app.database.session import async_session_maker
 
+
 class JwtAuthentication:
     def __init__(self):
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -26,13 +27,13 @@ class JwtAuthentication:
             res = await session.execute(query)
             res = res.scalar_one_or_none()
         return res
-            
+
     async def authenticate_user(self, login: str, password: str):
         wrong_credentials = HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="logint or password does not exist",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="logint or password does not exist",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
         user = await self._get_user(login=login)
         if not user:
             raise wrong_credentials
@@ -44,14 +45,15 @@ class JwtAuthentication:
     async def create_user(self, login, password):
         async with async_session_maker() as session:
             query = insert(User).values(
-                    login=login,
-                    password=self.pwd_context.hash(password)
-                    )
+                login=login, password=self.pwd_context.hash(password)
+            )
             await session.execute(query)
             await session.commit()
-            return Response('Created')
+            return Response("Created")
 
-    async def create_access_token(self, data: Dict, expires_delta: timedelta | None = None):
+    async def create_access_token(
+        self, data: Dict, expires_delta: timedelta | None = None
+    ):
         to_encode = data.copy()
         if expires_delta:
             expire = datetime.now(timezone.utc) + timedelta()

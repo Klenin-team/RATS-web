@@ -1,23 +1,28 @@
-from app.schemas.schemas import *
+from typing import List
+
 from fastapi import APIRouter
 from sqlalchemy import select
+
 from app.database.session import async_session_maker
 from app.database.models import Problem
+from app.schemas.problem import ProblemSchema
 
 problem_router = APIRouter()
 
 
-@problem_router.get("/problems", response_model=GetProblemsResponse)
-def show_problems():
-    with async_session_maker() as session:
+@problem_router.get("/problems", response_model=List[ProblemSchema], tags=['problems'])
+async def show_problems():
+    async with async_session_maker() as session:
         query = select(Problem)
-        session.execute(query)
-    return query
+        res = await session.execute(query)
+        res = res.all()
+    return res
 
 
-@problem_router.get("/problem/{problem_id}", response_model=GetProblemResponse)
-def show_contest(problem_id: str):
-    with async_session_maker() as session:
+@problem_router.get("/problem/{problem_id}", response_model=ProblemSchema, tags=['problems'])
+async def show_contest(problem_id: str):
+    async with async_session_maker() as session:
         query = select(Problem).filter(Problem.id == problem_id)
-        session.execute(query)
-    return query
+        res = await session.execute(query)
+        res = res.scalar_one_or_none()
+        return res
