@@ -30,6 +30,10 @@ class Settings(BaseSettings):
     def get_postgres_url(self):
         return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}/{self.POSTGRES_DB}"
 
+    
+    def get_queue_url(self):
+        return f'http://{self.QUEUE_HOST}'
+
 
 @lru_cache
 def get_settings():
