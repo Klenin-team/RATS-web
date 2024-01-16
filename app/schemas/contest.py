@@ -7,8 +7,8 @@ from pydantic import BaseModel
 class ProblemSchema(BaseModel):
     id: UUID | None = None
     title: str
-    memory_limitation: int # Bytes
-    time_limitation: int # Miliseconds
+    memory_limitation: int  # Bytes
+    time_limitation: int  # Miliseconds
     text: str
     input_file: str
     output_file: str
@@ -21,7 +21,17 @@ class ContestSchema(BaseModel):
     id: UUID | None = None
     title: str
     problems: List[ProblemSchema] | None = None
-    participants: List['UserSchema'] = []
+    participants: List['UserSchema'] | None = None
+
+    class Config:
+        orm_mode = True
+
+
+class ContestSchemaID(BaseModel):
+    id: UUID | None = None
+    title: str
+    problems: List[UUID] | None = None
+    participants: List[UUID] | None = None
 
     class Config:
         orm_mode = True
@@ -31,7 +41,7 @@ class UserSchema(BaseModel):
     id: UUID | None = None
     login: str
     password: str | None = None
-    full_name: str | None = None 
+    full_name: str | None = None
     contests: List[ContestSchema] = []
 
     class Config:

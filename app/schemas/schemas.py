@@ -3,6 +3,7 @@ from typing import List
 
 from pydantic import BaseModel
 
+
 # !!!!OTHERS!!!!
 
 
@@ -53,6 +54,13 @@ class ContestSchema(BaseModel):
     id: str
     title: str
     problems: List[Problems]
+    participants: List[User]
+
+
+class ContestSchemaID(BaseModel):
+    id: str
+    title: str
+    problems: List[UU]
     participants: List[User]
 
 

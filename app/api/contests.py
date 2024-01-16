@@ -2,11 +2,12 @@ from uuid import UUID
 from typing import List
 
 from fastapi import APIRouter
-from sqlalchemy import select
+from fastapi.responses import JSONResponse
+from sqlalchemy import select, insert, update
 
 from app.database.session import async_session_maker
-from app.database.models import Contest
-from app.schemas.contest import ContestSchema, ProblemSchema
+from app.database.models import Contest, Problem, User
+from app.schemas.contest import ContestSchema, ProblemSchema, ContestSchemaID
 
 contest_router = APIRouter()
 
@@ -36,3 +37,31 @@ async def get_contest_by_id_problems(contest_id: UUID):
         res = await session.execute(query)
         res = res.all()
     return res
+
+
+@contest_router.put("/contests", tags=['contests'])
+async def add_contest(contest: ContestSchemaID):
+    async with async_session_maker() as session:
+        query = select(Contest).filter(Contest.id == contest.id)
+        res = await session.execute(query)
+        res = res.scalar_one_or_none()
+        if res:
+            return JSONResponse({"status": "Contest already exist"}, status_code=200)
+        else:
+            query = insert(Contest).values(
+                title=contest.title
+            )
+            await session.execute(query)
+    return JSONResponse({"status": "OK"}, status_code=200)
+
+
+@contest_router.patch("/contests/{contest_id}", tags=['contests'])
+async def edit_contest(contest: ContestSchemaID, contest_id: UUID):
+    async with async_session_maker() as session:
+        query = update(Contest).where(Contest.id == contest_id).values(
+            title=contest.title,
+            problems=contest.problems,
+            participants=contest.participants
+        )
+        await session.execute(query)
+    return JSONResponse({"status": "OK"}, status_code=200)

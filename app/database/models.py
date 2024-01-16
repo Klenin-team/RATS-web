@@ -16,7 +16,6 @@ from sqlalchemy import (
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID, TEXT, JSONB
 
-
 convention = {
     "all_column_names": lambda constraint, _: "_".join(
         [column.name for column in constraint.columns.values()]
@@ -63,6 +62,7 @@ class User(Base):
         back_populates='participants'
     )
 
+
 class Problem(Base):
     __tablename__ = 'problem'
     id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
@@ -72,7 +72,7 @@ class Problem(Base):
     text: Mapped[str] = mapped_column(TEXT, nullable=False)
     input_file: Mapped[str] = mapped_column(String(124), nullable=False)
     output_file: Mapped[str] = mapped_column(String(124), nullable=False)
- 
+
 
 class Contest(Base):
     __tablename__ = 'contest'
@@ -107,11 +107,11 @@ class Test(Base):
 class TestVerdict(Base):
     __tablename__ = 'test_verdict'
     id: Mapped[UUIDType] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
-    verdict: Mapped[str] = mapped_column(String(2), nullable = False)
-    compilation_output: Mapped[str] = mapped_column(TEXT, nullable = False)
-    runtime_output: Mapped[str] = mapped_column(TEXT, nullable = False)
-    used_ram: Mapped[int] = mapped_column(INT, nullable=False)    # Bytes
-    used_time: Mapped[int] = mapped_column(INT, nullable=False)   # Miliseconds
+    verdict: Mapped[str] = mapped_column(String(2), nullable=False)
+    compilation_output: Mapped[str] = mapped_column(TEXT, nullable=False)
+    runtime_output: Mapped[str] = mapped_column(TEXT, nullable=False)
+    used_ram: Mapped[int] = mapped_column(INT, nullable=False)  # Bytes
+    used_time: Mapped[int] = mapped_column(INT, nullable=False)  # Miliseconds
     test: Mapped[Test] = mapped_column(ForeignKey('test.id'))
     solution_id: Mapped[UUIDType] = mapped_column(ForeignKey("solution.id"))
     solution: Mapped[Solution] = relationship(back_populates='verdicts')
