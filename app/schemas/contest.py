@@ -20,9 +20,9 @@ class ProblemSchema(BaseModel):
 class ContestSchema(BaseModel):
     id: UUID | None = None
     title: str
-    problems: List[ProblemSchema] | None = None
-    participants: List['UserSchema'] | None = None
-
+    problems: List[ProblemSchema] = []
+    participants: List['UserSchema'] = []
+    
     class Config:
         orm_mode = True
 
@@ -30,8 +30,8 @@ class ContestSchema(BaseModel):
 class ContestSchemaID(BaseModel):
     id: UUID | None = None
     title: str
-    problems: List[UUID] | None = None
-    participants: List[UUID] | None = None
+    problems: List[UUID] = []
+    participants: List[UUID] = []
 
     class Config:
         orm_mode = True
@@ -42,7 +42,7 @@ class UserSchema(BaseModel):
     login: str
     password: str | None = None
     full_name: str | None = None
-    contests: List[ContestSchema] = []
+    contests: List [ContestSchema] = [] 
 
     class Config:
         orm_mode = True
