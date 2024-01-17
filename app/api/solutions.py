@@ -42,3 +42,4 @@ async def show_single_solution(task_id: UUID, user_id: UUID):
         res = await session.execute(query)
         res = res.all()
     return res
+
