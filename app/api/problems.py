@@ -40,9 +40,15 @@ async def add_contest(problem: ProblemSchema):
             return JSONResponse({"status": "Problem already exist"}, status_code=200)
         else:
             query = insert(Problem).values(
-                title=problem.title
+                title=problem.title,
+                memory_limitation=problem.memory_limitation,
+                time_limitation=problem.time_limitation,
+                text=problem.text,
+                input_file=problem.input_file,
+                output_file=problem.output_file
             )
             await session.execute(query)
+            await session.commit()
     return JSONResponse({"status": "OK"}, status_code=200)
 
 
@@ -51,11 +57,12 @@ async def edit_contest(problem: ProblemSchema, problem_id: UUID):
     async with async_session_maker() as session:
         query = update(Problem).where(Problem.id == problem_id).values(
             title=problem.title,
-            memory_limitation=problem.problems,
-            time_limitation=problem.participants,
+            memory_limitation=problem.memory_limitation,
+            time_limitation=problem.time_limitation,
             text=problem.text,
             input_file=problem.input_file,
             output_file=problem.output_file
         )
         await session.execute(query)
+        await session.commit()
     return JSONResponse({"status": "OK"}, status_code=200)

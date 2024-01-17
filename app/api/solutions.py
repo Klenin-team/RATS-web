@@ -31,7 +31,7 @@ async def put_problems(solution: SolutionSchema):
             problem=solution.problem,
             user=solution.user)
         await session.execute(query)
-        await session.commit(query)
+        await session.commit()
     return JSONResponse({"status": "OK"}, status_code=200)
 
 
@@ -42,5 +42,3 @@ async def show_single_solution(task_id: UUID, user_id: UUID):
         res = await session.execute(query)
         res = res.all()
     return res
-
-
