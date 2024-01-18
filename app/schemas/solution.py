@@ -3,7 +3,7 @@ from typing import List
 
 from pydantic import BaseModel
 
-from app.schemas.problem import TestVerdict
+from app.schemas.problem import TestVerdictSchema
 
 
 class SolutionSchema(BaseModel):
@@ -11,5 +11,5 @@ class SolutionSchema(BaseModel):
     code: str
     problem: UUID
     user: UUID
-    solutions: List[TestVerdict] | None = None
+    verdicts: List[TestVerdictSchema] | None = None
     

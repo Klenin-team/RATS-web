@@ -1,5 +1,4 @@
 from uuid import UUID
-from typing import List
 from enum import Enum
 
 from pydantic import BaseModel
@@ -17,18 +16,19 @@ class Verdicts(Enum):
     se = 'SE'
 
 
-class Test(BaseModel):
+class TestSchema(BaseModel):
     id: UUID | None = None
     problem: ProblemSchema
     input: str
     output: str    
 
 
-class TestVerdict(BaseModel):
+class TestVerdictSchema(BaseModel):
     id: UUID | None = None
     verdict: Verdicts
     compilation_output: str
     runtime_output: str
     used_ram: int    # Bytes
     used_time: int   # Miliseconds
-    test: Test
+    test: UUID
+    solution: UUID
